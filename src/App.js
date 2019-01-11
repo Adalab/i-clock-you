@@ -1,25 +1,39 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Clock from './components/Clock';
+
 import './App.css';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      time: this.getTime()
+    }
+
+    this.updateMyClock = this.updateMyClock.bind(this);
+    setInterval(this.updateMyClock,1000);
+  }
+
+  getTime() {
+    const h = new Date().getHours();
+    const m = new Date().getMinutes();
+    const s = new Date().getSeconds();
+    return `${h}:${m}:${s}`;
+  }
+
+  updateMyClock() {
+    const newTime = this.getTime();
+    this.setState({
+      time: newTime
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Clock laHora={this.state.time} />
       </div>
     );
   }
